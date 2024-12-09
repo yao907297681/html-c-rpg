@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>c-rpg</title>
+  </head>
+  <body>
+    <style>
+      body {
+        margin: 0;
+      }
+    </style>
+    <iframe
+      id="targetIframe"
+      src="https://c-rpg.cc/"
+      style="width: 100vw; height: 100vh; border: none"
+    ></iframe>
+
+    <script>
+      function updateImageSrcInIframe() {
+        const iframe = document.getElementById("targetIframe");
+        try {
+          const iframeDocument =
+            iframe.contentDocument || iframe.contentWindow.document;
+          iframeDocument.querySelectorAll("img").forEach((img) => {
+            if (
+              img.src.includes("/items/") &&
+              !img.src.startsWith("https://c-rpg.eu")
+            ) {
+              img.src = `https://c-rpg.eu${img.getAttribute("src")}`;
+            }
+          });
+        } catch (error) {
+          console.error(
+            "Cannot access iframe content due to CORS restrictions:",
+            error
+          );
+        }
+      }
+
+      setInterval(updateImageSrcInIframe, 2000);
+    </script>
+  </body>
+</html>
